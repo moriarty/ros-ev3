@@ -23,3 +23,19 @@ The idea is to have a working set of instructions to install a linux distro and 
 
 
 apt-get install build-essential
+
+
+alex@ev3dev:~/ros_catkin_ws$ rosdep install --from-paths src --ignore-src --rosdistro indigo -y
+ERROR: the following packages/stacks could not have their rosdep keys resolved
+to system dependencies:
+rosconsole: No definition of [log4cxx] for OS version []
+roslisp: No definition of [boost] for OS version []
+catkin: No definition of [python-argparse] for OS version []
+message_filters: No definition of [boost] for OS version []
+roslib: No definition of [boost] for OS version []
+rostime: No definition of [boost] for OS version []
+rostest: No definition of [boost] for OS version []
+rospack: No definition of [boost] for OS version []
+cpp_common: No definition of [libconsole-bridge-dev] for OS [debian]
+rosbag: No definition of [boost] for OS version []
+rosbag_storage: No definition of [libconsole-bridge-dev] for OS [debian]
