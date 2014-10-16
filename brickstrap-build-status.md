@@ -84,5 +84,6 @@ I'm now running Ubuntu 14.04.1 inside VMWareFusion, and then brickstrap / qemu i
 7 of 49 packages have been made in 5 minutes. 
 
 
-
+The first try died on 9 of 49. my fault. The virtual machine display went to sleep. 
+running again got to 20 of 49 very quickly. 
 
