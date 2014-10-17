@@ -87,3 +87,37 @@ I'm now running Ubuntu 14.04.1 inside VMWareFusion, and then brickstrap / qemu i
 The first try died on 9 of 49. my fault. The virtual machine display went to sleep. 
 running again got to 20 of 49 very quickly. 
 
+Everything finished. created a tar of my ros_catkin_ws and moved it to the EV3
+
+source ~/ros_catkin_ws/install_isolated/setup.bash
+
+alex@ev3dev:~$ export ROS_MASTER_URI=http://localhost:11311
+
+alex@ev3dev:~$ roscore
+... logging to /home/alex/.ros/log/6615ed02-5590-11e4-a515-021653462e42/roslaunch-ev3dev-1127.log
+Checking log directory for disk usage. This may take awhile.
+Press Ctrl-C to interrupt
+Done checking log file disk usage. Usage is <1GB.
+
+started roslaunch server http://ev3dev:51216/
+ros_comm version 1.11.9
+
+
+SUMMARY
+========
+
+PARAMETERS
+ * /rosdistro: indigo
+ * /rosversion: 1.11.9
+
+NODES
+
+auto-starting new master
+process[master]: started with pid [1144]
+ERROR: could not contact master [http://ev3dev:11311/]
+The traceback for the exception was written to the log file
+[master] killing on exit
+Traceback (most recent call last):
+.... and a bunch of crap
+
+
