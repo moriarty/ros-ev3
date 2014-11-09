@@ -1,6 +1,6 @@
 This is a work in progress status report on getting ROS onto ev3dev using brickstrap.
 
-1. Follow the [instructions](https://github.com/ev3dev/ev3dev/wiki/Using-brickstrap-to-cross-compile-and-debug) here to get brickstrap.
+Follow the [instructions](https://github.com/ev3dev/ev3dev/wiki/Using-brickstrap-to-cross-compile-and-debug) here to get brickstrap.
   - I'm currently doing everything inside of the brickstrap shell, and then copying to the ev3.
 
 Once inside of a brickstrap shell:
