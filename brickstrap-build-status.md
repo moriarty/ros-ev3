@@ -7,25 +7,31 @@ Once inside of a brickstrap shell:
 
 1. we install the system dependencies using ```sudo apt-get install```. <br>
   I've added them in list so that they can be updated and maintained easily. 
-```
-    user@host$ ./ros-dependencies.debs
-```
+
+  ```
+  user@host$ ./ros-dependencies.debs
+  ```
 2. Next install the some python packages available through pip
-```
-    pip install -U rosdep rosinstall_generator wstool rosinstall catkin_pkg rospkg
-```
-3. sbcl needs to be downloaded, there is a armel binary available for 1.2.1
-  http://www.sbcl.org/platform-table.html
-  unpack it, change to the directory and run:
-```
-    user@host$ INSTALL_ROOT=/usr/local sh install.sh
-```
 
-Next initialize and update rosdep:
+  ```
+  pip install -U rosdep rosinstall_generator wstool rosinstall catkin_pkg rospkg
+  ```
+3. sbcl needs to be downloaded, there is a armel binary available for 1.2.1 <br>
+  http://www.sbcl.org/platform-table.html <br>
+  unpack it, change to the directory and run: <br>
 
-    rosdep init
-    rosdep update
+  ```
+  user@host$ INSTALL_ROOT=/usr/local sh install.sh
+  ```
 
+4. Initialize and update rosdep:
+
+  ```
+  rosdep init
+  rosdep update
+  ```
+  
+  
 
 I made a directory ~/workspace/ev3/ev3dev-ros where I will be working on the ev3dev-ros stuff.
 Inside I made a ros_catkin_ws directory.
