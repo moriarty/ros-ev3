@@ -75,7 +75,7 @@ Once inside of a brickstrap shell:
   ```
 
 8. I created a isolated catkin workspace which I later compressed and copied to my user directory once I had the new image of ev3dev with the ros dependencies onto the ev3. <br>
-  TODO: put ros into the standard /opt/ros/ location. <br>
+  TODO: put ros into the standard /opt/ros/ location. There is a note on this [here](http://wiki.ros.org/hydro/Installation/Source#Maintaining_a_Source_Checkout) <br>
 
   In my ros_catkin_ws, still inside of a brickstrap shell I ran:
   ```
@@ -102,41 +102,17 @@ Once inside of a brickstrap shell:
   I left it alone for an hour and (after a few failed attempts) it was done when I returned. 
 
 
-Everything finished. created a tar of my ros_catkin_ws and moved it to the EV3
+#### Notes
+
+Once Everything finished. I created a tar of my ros_catkin_ws and moved it to my home directory on the EV3.<br>
+Don't forget to source setup.bash and export ROS_MASTER_URI.
 
 
-```
-alex@ev3dev:~$ source ~/ros_catkin_ws/install_isolated/setup.bash
+ROSCORE is not working on the ev3. I don't know if it's possible or when I will have a chance to investigate further. 
 
-alex@ev3dev:~$ export ROS_MASTER_URI=http://localhost:11311
+Running roscore on a laptop, I was able to run the rospy tutorials talker and listener on the ev3. <br>
+I've uploaded a video [here](http://youtu.be/ZgA7DgbuVEs) of the talker/listener running.
 
+I set all the ip addresses of the machines and ev3 in /etc/hosts, might be my own networking issue.
 
-
-alex@ev3dev:~$ roscore
-... logging to /home/alex/.ros/log/6615ed02-5590-11e4-a515-021653462e42/roslaunch-ev3dev-1127.log
-Checking log directory for disk usage. This may take awhile.
-Press Ctrl-C to interrupt
-Done checking log file disk usage. Usage is <1GB.
-
-started roslaunch server http://ev3dev:51216/
-ros_comm version 1.11.9
-
-
-SUMMARY
-========
-
-PARAMETERS
- * /rosdistro: indigo
- * /rosversion: 1.11.9
-
-NODES
-
-auto-starting new master
-process[master]: started with pid [1144]
-ERROR: could not contact master [http://ev3dev:11311/]
-The traceback for the exception was written to the log file
-[master] killing on exit
-Traceback (most recent call last):
-.... and a bunch of crap
-```
 
