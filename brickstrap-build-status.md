@@ -21,49 +21,58 @@ Once inside of a brickstrap shell:
   unpack it, change to the directory and run: <br>
 
   ```
-  user@host$ INSTALL_ROOT=/usr/local sh install.sh
+  user@host# INSTALL_ROOT=/usr/local sh install.sh
   ```
 
 4. Initialize and update rosdep:
 
   ```
-  rosdep init
-  rosdep update
+  user@host# rosdep init
+  user@host# rosdep update
   ```
   
+5. debian jessie is not officially supported by ros, so now we need to add in some custom rosdep rules.<br>
+  create a file ev3dev.yaml and put in it the following.<br>
+  Note: I didn't try what would happen if I left these blank, and right now this is a bit of a hack. 
+
+  ```
+  libconsole-bridge-dev:
+    debian:
+      jessie: [libconsole-bridge-dev]
+  python-rosdep:
+    debian:
+      jessie: [python]
+  sbcl:
+    debian:
+      jessie: [libc6]
+  python-rospkg:
+    debian:
+      jessie: [python]
+  python-catkin-pkg:
+    debian:
+      jessie: [python]
+  ```
+
+6. Now we tell rosdep about the file we just created.
+
+  ```
+  user@host# vi /etc/ros/rosdep/sources.list.d/20-default.list
+  ```
   
+  add the following lines to the beginning. update the path to the yaml which you create in the last step. 
+  ```
+  # for ROS on the ev3 as user "alex"
+  # yaml file:///home/alex/ev3dev.yaml
+  # for brickstrap the line is:
+  yaml file:///host-rootfs/home/alex/workspace/ev3/ev3dev-ros/ev3dev.yaml
+  ```
 
-I made a directory ~/workspace/ev3/ev3dev-ros where I will be working on the ev3dev-ros stuff.
-Inside I made a ros_catkin_ws directory.
+7. run rosdep update again. 
 
-vi /etc/ros/rosdep/sources.list.d/20-default.list 
+  ```
+  user@host# rosdep update
+  ```
 
-add a line to the beginning: 
-# on the ev3 I added
-yaml file:///home/alex/ev3dev.yaml
-# in brickstrap the line is:
-yaml file:///host-rootfs/home/alex/workspace/ev3/ev3dev-ros/ev3dev.yaml
-
-The file contains:
-alex@ev3dev:/root$ cat ~/ev3dev.yaml 
-libconsole-bridge-dev:
-  debian:
-    jessie: [libconsole-bridge-dev]
-python-rosdep:
-  debian:
-    jessie: [python]
-sbcl:
-  debian:
-    jessie: [libc6]
-python-rospkg:
-  debian:
-    jessie: [python]
-python-catkin-pkg:
-  debian:
-    jessie: [python]
-
-run rosdep update again
-rosdep update
 
 In my ros_catkin_ws I ran:
 rosinstall_generator ros_comm --rosdistro indigo --deps --wet-only --tar > indigo-ros_comm-wet.rosinstall
