@@ -43,9 +43,11 @@ Once inside of a brickstrap shell:
   ```
 3. sbcl needs to be downloaded, there is a armel binary available for 1.2.1 <br>
   http://www.sbcl.org/platform-table.html <br>
-  unpack it, change to the directory and run: <br>
+  Downlad, unpack it, change to the directory and run the install script: <br>
 
   ```
+  root@host# wget http://netcologne.dl.sourceforge.net/project/sbcl/sbcl/1.2.1/sbcl-1.2.1-armel-linux-binary.tar.bz2
+  root@host# tar -xjf sbcl-1.2.1-armel-linux-binary.tar.bz2 
   root@host# INSTALL_ROOT=/usr/local sh install.sh
   ```
 
@@ -53,8 +55,14 @@ Once inside of a brickstrap shell:
 
   ```
   root@host# rosdep init
-  root@host# rosdep update
+  root@host# rosdep update 
   ```
+  
+  Note: the rosdep update may not be needed.
+  Ignore the following warning, fix it later. 
+  Warning: running 'rosdep update' as root is not recommended.
+  You should run 'sudo rosdep fix-permissions' and invoke 'rosdep update' again without sudo.
+
   
 5. debian jessie is not officially supported by ros, so now we need to add in some custom rosdep rules.<br>
   create a file ev3dev.yaml and put in it the following.<br>
