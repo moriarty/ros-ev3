@@ -33,7 +33,8 @@ Once inside of a brickstrap shell:
   
 5. debian jessie is not officially supported by ros, so now we need to add in some custom rosdep rules.<br>
   create a file ev3dev.yaml and put in it the following.<br>
-  Note: I didn't try what would happen if I left these blank, and right now this is a bit of a hack. 
+  Note: I didn't try what would happen if I left these blank, and right now this is a bit of a hack.<br>
+  We installed all of these packages in the steps above, so we're just telling rosdep to look for other packages we know are there.
 
   ```
   libconsole-bridge-dev:
@@ -73,37 +74,32 @@ Once inside of a brickstrap shell:
   user@host# rosdep update
   ```
 
+8. I created a isolated catkin workspace which I later compressed and copied to my user directory once I had the new image of ev3dev with the ros dependencies onto the ev3. <br>
+  TODO: put ros into the standard /opt/ros/ location. <br>
 
-In my ros_catkin_ws I ran:
-rosinstall_generator ros_comm --rosdistro indigo --deps --wet-only --tar > indigo-ros_comm-wet.rosinstall
-wstool init -j8 src indigo-ros_comm-wet.rosinstall
+  In my ros_catkin_ws, still inside of a brickstrap shell I ran:
+  ```
+  user@host# rosinstall_generator ros_comm --rosdistro indigo --deps --wet-only --tar > indigo-ros_comm-wet.rosinstall
+  user@host# wstool init -j8 src indigo-ros_comm-wet.rosinstall
+  ```
 
-root@ubuntu:/host-rootfs/home/alex/workspace/ev3/ev3dev-ros/ros_catkin_ws# rosdep check --from-paths src --ignore-src --rosdistro indigo -y --os=debian:jessie
-System dependencies have not been satisified:
-apt	python-mock
-apt	python-empy
-apt	python-netifaces
-apt	libtinyxml-dev
-apt	python-numpy
-apt	python-imaging
-apt	libgtest-dev
+9. The ```ros-dependencies.debs``` script was created by trial and error. Hopefully it's still up to date and all the system dependencies are satisifed, but it's a good idea to check first. 
 
-Fix those:
-root@ubuntu:/host-rootfs/home/alex/workspace/ev3/ev3dev-ros/ros_catkin_ws# apt-get install python-mock python-empy python-netifaces libtinyxml-dev python-numpy python-imaging libgtest-dev
+  ```
+  root@ubuntu# rosdep check --from-paths src --ignore-src --rosdistro indigo -y --os=debian:jessie
+  
+  All system dependencies have been satisified
+  ```
 
-Check again:
-root@ubuntu:/host-rootfs/home/alex/workspace/ev3/ev3dev-ros/ros_catkin_ws# rosdep check --from-paths src --ignore-src --rosdistro indigo -y --os=debian:jessie
-All system dependencies have been satisified
-root@ubuntu:/host-rootfs/home/alex/workspace/ev3/ev3dev-ros/ros_catkin_ws# rosdep install --from-paths src --ignore-src --rosdistro indigo -y --os=debian:jessie
-#All required rosdeps installed successfully
-
-Then run:
-./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release
-
-This might take a while. On the EV3 itself it took 15+ hours... and failed. 
-I'm now running Ubuntu 14.04.1 inside VMWareFusion, and then brickstrap / qemu inside of that. 
-7 of 49 packages have been made in 5 minutes. 
-
+10. It's time to install for ```catkin_make_isolated``` install. <br>
+  from inside the ros_caktin_workspace run:
+  ```
+  ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release
+  ```
+  
+  This might take a while. On the EV3 itself it took 15+ hours... and failed. <br>
+  I'm now running Ubuntu 14.04.1 inside VMWareFusion, and then brickstrap / qemu inside of that. <br> 
+  I left it alone for at least an hour. 
 
 The first try died on 9 of 49. my fault. The virtual machine display went to sleep. 
 running again got to 20 of 49 very quickly. 
