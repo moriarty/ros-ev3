@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# list of packages to be installed
+
+packagelist=(
+    apt-utils
+    build-essential
+    cmake
+    initramfs-tools
+    libboost-all-dev
+    libboost-dev
+    libbz2-dev
+    libc6-dev
+    libconsole-bridge-dev
+    libgtest-dev
+    liblog4cxx10
+    liblog4cxx10-dev
+    liblz4-dev
+    libtinyxml-dev
+    libpython2.7-stdlib
+    libyaml-cpp-dev
+    libyaml-dev
+    python-coverage
+    python-empy
+    python-imaging
+    python-mock
+    python-netifaces
+    python-nose
+    python-numpy
+    python-paramiko
+    python-pip
+    python-yaml
+)
+
+sudo apt-get install -y ${packagelist[@]}
+
