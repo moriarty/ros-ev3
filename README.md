@@ -6,14 +6,16 @@ Currently trying to get ros core running on an ev3.
 Latest Status
 ------
 
+- rospy talker-subscriber working. If you're looking for proof here is video http://youtu.be/ZgA7DgbuVEs
+- roscore not working on the ev3
 - All ROS dependencies have been built and installed. 
-- 41 of 49 packages from ROS-Comm have been built and installed. 
-- roscpp is at 68%
-- I do not recommend building on the EV3 itself. It's been going for 12 hours and still not finished. I will install ev3dev on a new microSD card and try cross compiling from my desktop. 
-- I think it's clear that if this works, I'll need to make debian binaries because nobody will want to do this on a whole class set of EV3s.
-- There is not much RAM in the EV3. So I've been increasing my swap partition by trial and error. It's currently at 1Gb. 
 
+Current todos:
+------
 
+- replicate the process. I've just kept rough notes and command line history of how I got it working the first time.
+- test roscpp, and the motors and sensors
+- build debs
 
 NOTES
 =====
