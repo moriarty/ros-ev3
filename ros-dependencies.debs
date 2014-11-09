@@ -32,5 +32,5 @@ packagelist=(
     python-yaml
 )
 
-sudo apt-get install -y ${packagelist[@]}
+apt-get install -y ${packagelist[@]}
 
