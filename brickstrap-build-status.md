@@ -99,16 +99,18 @@ Once inside of a brickstrap shell:
   
   This might take a while. On the EV3 itself it took 15+ hours... and failed. <br>
   I'm now running Ubuntu 14.04.1 inside VMWareFusion, and then brickstrap / qemu inside of that. <br> 
-  I left it alone for at least an hour. 
+  I left it alone for an hour and (after a few failed attempts) it was done when I returned. 
 
-The first try died on 9 of 49. my fault. The virtual machine display went to sleep. 
-running again got to 20 of 49 very quickly. 
 
 Everything finished. created a tar of my ros_catkin_ws and moved it to the EV3
 
-source ~/ros_catkin_ws/install_isolated/setup.bash
+
+```
+alex@ev3dev:~$ source ~/ros_catkin_ws/install_isolated/setup.bash
 
 alex@ev3dev:~$ export ROS_MASTER_URI=http://localhost:11311
+
+
 
 alex@ev3dev:~$ roscore
 ... logging to /home/alex/.ros/log/6615ed02-5590-11e4-a515-021653462e42/roslaunch-ev3dev-1127.log
@@ -136,5 +138,5 @@ The traceback for the exception was written to the log file
 [master] killing on exit
 Traceback (most recent call last):
 .... and a bunch of crap
-
+```
 
