@@ -1,7 +1,26 @@
 This is a work in progress status report on getting ROS onto ev3dev using brickstrap.
 
-Follow the [instructions](https://github.com/ev3dev/ev3dev/wiki/Using-brickstrap-to-cross-compile-and-debug) here to get brickstrap.
-  - I'm currently doing everything inside of the brickstrap shell, and then copying to the ev3.
+Follow the [instructions](https://github.com/ev3dev/ev3dev/wiki/Using-brickstrap-to-cross-compile-and-debug) here to get brickstrap. But note:
+  - ```apt-get install brickstrap``` doesn't include a recent patch. See this [ev3dev Issue #190](https://github.com/ev3dev/ev3dev/issues/190) <br>
+    I checked out the source code and replaced the ev3dev-jessie brickstrap uses with the new one.
+    
+    ```
+    user@host$ git checkout git@github.com:ev3dev/brickstrap
+    user@host$ sudo rm -rf /usr/share/brickstrap/ev3dev-jessie
+    user@host$ sudo mv ev3dev-jessie /usr/share/brickstrap/ev3dev-jessie
+    ```
+
+Once you've updated the ev3dev-jessie you can run
+
+```
+user@host$ brickstrap -b ev3dev-jessie -d ev3dev-ros all
+```
+This command takes a few minutes. When it's finished you can enter the brickstrap shell.
+
+```
+user@host$ brickstrap -b ev3dev-jessie -d ev3dev-ros shell
+root@host#
+```
 
 Once inside of a brickstrap shell:
 
@@ -9,26 +28,26 @@ Once inside of a brickstrap shell:
   I've added them in list so that they can be updated and maintained easily. 
 
   ```
-  user@host$ ./ros-dependencies.debs
+  root@host# ./ros-dependencies.debs
   ```
 2. Next install the some python packages available through pip
 
   ```
-  pip install -U rosdep rosinstall_generator wstool rosinstall catkin_pkg rospkg
+  root@host# pip install -U rosdep rosinstall_generator wstool rosinstall catkin_pkg rospkg
   ```
 3. sbcl needs to be downloaded, there is a armel binary available for 1.2.1 <br>
   http://www.sbcl.org/platform-table.html <br>
   unpack it, change to the directory and run: <br>
 
   ```
-  user@host# INSTALL_ROOT=/usr/local sh install.sh
+  root@host# INSTALL_ROOT=/usr/local sh install.sh
   ```
 
 4. Initialize and update rosdep:
 
   ```
-  user@host# rosdep init
-  user@host# rosdep update
+  root@host# rosdep init
+  root@host# rosdep update
   ```
   
 5. debian jessie is not officially supported by ros, so now we need to add in some custom rosdep rules.<br>
@@ -57,7 +76,7 @@ Once inside of a brickstrap shell:
 6. Now we tell rosdep about the file we just created.
 
   ```
-  user@host# vi /etc/ros/rosdep/sources.list.d/20-default.list
+  root@host# vi /etc/ros/rosdep/sources.list.d/20-default.list
   ```
   
   add the following lines to the beginning. update the path to the yaml which you create in the last step. 
@@ -71,7 +90,7 @@ Once inside of a brickstrap shell:
 7. run rosdep update again. 
 
   ```
-  user@host# rosdep update
+  root@host# rosdep update
   ```
 
 8. I created a isolated catkin workspace which I later compressed and copied to my user directory once I had the new image of ev3dev with the ros dependencies onto the ev3. <br>
@@ -79,14 +98,14 @@ Once inside of a brickstrap shell:
 
   In my ros_catkin_ws, still inside of a brickstrap shell I ran:
   ```
-  user@host# rosinstall_generator ros_comm --rosdistro indigo --deps --wet-only --tar > indigo-ros_comm-wet.rosinstall
-  user@host# wstool init -j8 src indigo-ros_comm-wet.rosinstall
+  root@host# rosinstall_generator ros_comm --rosdistro indigo --deps --wet-only --tar > indigo-ros_comm-wet.rosinstall
+  root@host# wstool init -j8 src indigo-ros_comm-wet.rosinstall
   ```
 
 9. The ```ros-dependencies.debs``` script was created by trial and error. Hopefully it's still up to date and all the system dependencies are satisifed, but it's a good idea to check first. 
 
   ```
-  root@ubuntu# rosdep check --from-paths src --ignore-src --rosdistro indigo -y --os=debian:jessie
+  root@host# rosdep check --from-paths src --ignore-src --rosdistro indigo -y --os=debian:jessie
   
   All system dependencies have been satisified
   ```
