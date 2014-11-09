@@ -24,12 +24,18 @@ root@host#
 
 Once inside of a brickstrap shell:
 
-1. we install the system dependencies using ```sudo apt-get install```. <br>
+1. Change into the host-rootfs as suggested in guide above. <br>
+  Then install the system dependencies using ```apt-get install```. <br>
   I've added them in list so that they can be updated and maintained easily. 
 
   ```
+  root@host# cd /host-rootfs/home/user/workspace/ev3
+  root@host# apt-get update
+  root@host# wget https://raw.githubusercontent.com/moriarty/ros-ev3/master/ros-dependencies.debs
+  root@host# chmod +x ros-dependencies.debs
   root@host# ./ros-dependencies.debs
   ```
+
 2. Next install the some python packages available through pip
 
   ```
