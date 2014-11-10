@@ -1,13 +1,9 @@
 This is a work in progress status report on getting ROS onto ev3dev using brickstrap.
 
-I have been completed this process once. The original process was hacking. <br>
-This new process is currently not woring when I try to create the disk image. Originally installed ev3dev-jessie and booted into it, installing all of the dependencies. Then used brickstrap to build sbcl and ros, and copied them to the EV3.<br>
-Now I'm trying to create an image from the brickstrap rootfs. ```brickstap -f -b ev3dev-ros create-image``` but the resulting image does not contain any of the changes that are present in the tar.
-
-
 Follow the [instructions](https://github.com/ev3dev/ev3dev/wiki/Using-brickstrap-to-cross-compile-and-debug) here to get brickstrap. But note:
   - ```apt-get install brickstrap``` doesn't include a recent patch. See this [ev3dev Issue #190](https://github.com/ev3dev/ev3dev/issues/190) <br>
-    I checked out the source code and replaced the ev3dev-jessie brickstrap uses with the new one.
+    I checked out the source code and replaced the ev3dev-jessie brickstrap uses with the new one.<br>
+    We will need to modify this again once more before we create the image. 
     
     ```
     user@host$ git checkout git@github.com:ev3dev/brickstrap
@@ -110,11 +106,17 @@ Once inside of a brickstrap shell:
 
 8. Exit the brickstrap shell and create a tar of the brickstrap rootfs and a disk image from the tar.
   
-  NOTE: I am not sure how to do this. Create tar seems to work fine, and contains everything, but the resulting image no longer contains /opt/ros or any of the additional packages. <br>
-  Please skip to step 10. 
+  brickstrap is using the ev3dev-jessie "BOARD" settings which create a 900M Image. After installing ROS the tar is 1.3G
+  I increased it to 1500M. 
 
   ```
   root@host# exit
+  user@host# sudo vi /usr/share/brickstrap/ev3dev-jessie/config
+  ```
+  
+  Change ```IMAGE_FILE_SIZE="900M"``` to ```IMAGE_FILE_SIZE="1500M"```
+  
+  ```
   user@host$ brickstrap -d ev3dev-ros -f create-tar
   user@host$ brickstrap -d ev3dev-ros -f create-image
   ```
@@ -124,7 +126,6 @@ Once inside of a brickstrap shell:
   - [gui](http://www.ev3dev.org/docs/tutorials/writing-sd-card-image-ubuntu-disk-image-writer/)
   - [cli](http://www.ev3dev.org/docs/tutorials/writing-sd-card-image-linux-command-line/)
 
-10. The original way I did this, was to install all the dependencies onto the EV3 directly and then just copy over ros and sbcl 
 
 #### Notes
 
