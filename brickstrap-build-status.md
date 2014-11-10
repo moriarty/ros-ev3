@@ -1,5 +1,10 @@
 This is a work in progress status report on getting ROS onto ev3dev using brickstrap.
 
+I have been completed this process once. The original process was hacking. <br>
+This new process is currently not woring when I try to create the disk image. Originally installed ev3dev-jessie and booted into it, installing all of the dependencies. Then used brickstrap to build sbcl and ros, and copied them to the EV3.<br>
+Now I'm trying to create an image from the brickstrap rootfs. ```brickstap -f -b ev3dev-ros create-image``` but the resulting image does not contain any of the changes that are present in the tar.
+
+
 Follow the [instructions](https://github.com/ev3dev/ev3dev/wiki/Using-brickstrap-to-cross-compile-and-debug) here to get brickstrap. But note:
   - ```apt-get install brickstrap``` doesn't include a recent patch. See this [ev3dev Issue #190](https://github.com/ev3dev/ev3dev/issues/190) <br>
     I checked out the source code and replaced the ev3dev-jessie brickstrap uses with the new one.
@@ -64,82 +69,66 @@ Once inside of a brickstrap shell:
   You should run 'sudo rosdep fix-permissions' and invoke 'rosdep update' again without sudo.
 
   
-5. debian jessie is not officially supported by ros, so now we need to add in some custom rosdep rules.<br>
-  create a file ev3dev.yaml and put in it the following.<br>
-  Note: I didn't try what would happen if I left these blank, and right now this is a bit of a hack.<br>
-  We installed all of these packages in the steps above, so we're just telling rosdep to look for other packages we know are there.
-
+5. debian jessie is not officially supported by ros, so now we need to add a custom ev3dev.yaml<br>
+  And add this file to the rosdep sources.
+  
   ```
-  libconsole-bridge-dev:
-    debian:
-      jessie: [libconsole-bridge-dev]
-  python-rosdep:
-    debian:
-      jessie: [python]
-  sbcl:
-    debian:
-      jessie: [libc6]
-  python-rospkg:
-    debian:
-      jessie: [python]
-  python-catkin-pkg:
-    debian:
-      jessie: [python]
-  ```
-
-6. Now we tell rosdep about the file we just created.
-
-  ```
+  root@host# wget https://raw.githubusercontent.com/moriarty/ros-ev3/master/ev3dev.yaml
   root@host# vi /etc/ros/rosdep/sources.list.d/20-default.list
   ```
   
-  add the following lines to the beginning. update the path to the yaml which you create in the last step. 
+  Add the following lines to the beginning, update the path to where wget just put the file. 
   ```
   # for ROS on the ev3 as user "alex"
   # yaml file:///home/alex/ev3dev.yaml
   # for brickstrap the line is:
   yaml file:///host-rootfs/home/alex/workspace/ev3/ev3dev-ros/ev3dev.yaml
   ```
-
-7. run rosdep update again. 
-
+  
+  update rosdep again. 
   ```
   root@host# rosdep update
   ```
 
-8. I created a isolated catkin workspace which I later compressed and copied to my user directory once I had the new image of ev3dev with the ros dependencies onto the ev3. <br>
-  TODO: put ros into the standard /opt/ros/ location. There is a note on this [here](http://wiki.ros.org/hydro/Installation/Source#Maintaining_a_Source_Checkout) <br>
+6. I created and changed to a new directory ros_comm, just to keep things organized. <br>
+  Then create the rosinstall file, initialize the ros workspace, and check the ros dependencies are all met.
 
-  In my ros_catkin_ws, still inside of a brickstrap shell I ran:
   ```
+  root@host# mkdir ros_comm && cd ros_com
   root@host# rosinstall_generator ros_comm --rosdistro indigo --deps --wet-only --tar > indigo-ros_comm-wet.rosinstall
   root@host# wstool init -j8 src indigo-ros_comm-wet.rosinstall
-  ```
-
-9. The ```ros-dependencies.debs``` script was created by trial and error. Hopefully it's still up to date and all the system dependencies are satisifed, but it's a good idea to check first. 
-
-  ```
   root@host# rosdep check --from-paths src --ignore-src --rosdistro indigo -y --os=debian:jessie
-  
-  All system dependencies have been satisified
   ```
 
-10. It's time to install for ```catkin_make_isolated``` install. <br>
-  from inside the ros_caktin_workspace run:
+7. It's time to install ros using catkin_make_isolated.
+
   ```
-  ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release
+  root@host# ./src/catkin/bin/catkin_make_isolated --install --install-space /opt/ros/indigo -DCMAKE_BUILD_TYPE=Release
   ```
   
-  This might take a while. On the EV3 itself it took 15+ hours... and failed. <br>
-  I'm now running Ubuntu 14.04.1 inside VMWareFusion, and then brickstrap / qemu inside of that. <br> 
-  I left it alone for an hour and (after a few failed attempts) it was done when I returned. 
+  This step might take a while. I'm running the brickstrap shell inside of a Virtual Ubuntu 14.04 inside of OSX 10.10, not the ideal setup for speed, but I'm unable to upgrade to 14.04 on my main linux partition. I've given the VM 4 of 8 cores and 4Gb of ram, With this configuration the process took almost exactly one hour. 
 
+8. Exit the brickstrap shell and create a tar of the brickstrap rootfs and a disk image from the tar.
+  
+  NOTE: I am not sure how to do this. Create tar seems to work fine, and contains everything, but the resulting image no longer contains /opt/ros or any of the additional packages. <br>
+  Please skip to step 10. 
+
+  ```
+  root@host# exit
+  user@host$ brickstrap -d ev3dev-ros -f create-tar
+  user@host$ brickstrap -d ev3dev-ros -f create-image
+  ```
+  
+
+9. Create an SD card from the image, there are two ways to do this:<br>
+  - [gui](http://www.ev3dev.org/docs/tutorials/writing-sd-card-image-ubuntu-disk-image-writer/)
+  - [cli](http://www.ev3dev.org/docs/tutorials/writing-sd-card-image-linux-command-line/)
+
+10. The original way I did this, was to install all the dependencies onto the EV3 directly and then just copy over ros and sbcl 
 
 #### Notes
 
-Once Everything finished. I created a tar of my ros_catkin_ws and moved it to my home directory on the EV3.<br>
 Don't forget to source setup.bash and export ROS_MASTER_URI.
-
 
 ROSCORE is not working on the ev3. I don't know if it's possible or when I will have a chance to investigate further. 
 
