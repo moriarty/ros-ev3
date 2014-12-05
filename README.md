@@ -21,6 +21,9 @@ Current ToDos:
 - test roscpp, and all the motors and sensors (currently I've only been testing one motor and one sensor assuming they'll all work.)
 - create a controller for the EV3 which listens to ros topics for motor commands and publishes the encoder ticks
 - write a configurable differential driver controller which takes [geometry_msgs/Twist](http://wiki.ros.org/geometry_msgs) to allow ros navigation to control the EV3.
-- create a publishers for the EV3 sensors
+- create publishers for the EV3 sensors
 - build debs?
-
+- eventually add a ros tab to brickman for ev3dev with ros. 
+  - Set ROS_MASTER_URI 
+  - Launch the ros controller node
+  - Configuration of the controller node would be done via ssh on a per robot basis, but once the robot is built it would be handy to quickly connect it to ROS without ssh first into the brick and launching
