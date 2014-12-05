@@ -6,6 +6,8 @@ Getting ros ~~core~~ running on an ev3.
 Latest Status
 ------
 
+- I need to take a short break to finish another research project, will be back after Jan 15, 2015. 
+- using this [python-ev3 package](https://github.com/topikachu/python-ev3) and a pyhton console I controlled the motors from ros topic input. no video proof yet, it was just a quick hack to test it. 
 - rospy talker-subscriber working. If you're looking for proof [here is video](http://youtu.be/ZgA7DgbuVEs)
 - roscore not working on the ev3
 - All ROS dependencies have been built and installed. 
@@ -15,7 +17,9 @@ See brickstrap-build-status.md for the steps I used.
 Current ToDos:
 ------
 
-- replicate the process. I've just kept rough notes and command line history of how I got it working the first time.
-- test roscpp, and the motors and sensors
+- test roscpp, and all the motors and sensors (currently I've only been testing one motor and one sensor assuming they'll all work.)
+- create a controller for the EV3 which listens to ros topics for motor commands and publishes the encoder ticks
+- write a configurable differential driver controller which takes [geometry_msgs/Twist](http://wiki.ros.org/geometry_msgs) to allow ros navigation to control the EV3.
+- create a publishers for the EV3 sensors
 - build debs?
 
