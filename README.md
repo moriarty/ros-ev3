@@ -12,11 +12,12 @@ Latest Status
 - roscore not working on the ev3
 - All ROS dependencies have been built and installed. 
 
-See brickstrap-build-status.md for the steps I used.
+See [brickstrap-build-status.md](https://github.com/moriarty/ros-ev3/blob/master/brickstrap-build-status.md) for the steps I used.
 
 Current ToDos:
 ------
 
+- create an sd image to share ev3dev with ros already included. Not the recommended way to do it but some people my just want to quickly test.
 - test roscpp, and all the motors and sensors (currently I've only been testing one motor and one sensor assuming they'll all work.)
 - create a controller for the EV3 which listens to ros topics for motor commands and publishes the encoder ticks
 - write a configurable differential driver controller which takes [geometry_msgs/Twist](http://wiki.ros.org/geometry_msgs) to allow ros navigation to control the EV3.
