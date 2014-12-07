@@ -19,7 +19,7 @@ Current ToDos:
 
 - create an sd image to share ev3dev with ros already included. Not the recommended way to do it but some people my just want to quickly test.
 - test roscpp, and all the motors and sensors (currently I've only been testing one motor and one sensor assuming they'll all work.)
-- create a controller for the EV3 which listens to ros topics for motor commands and publishes the encoder ticks
+- create a [controller](http://wiki.ros.org/ros_control#Overview) for the EV3 which listens to ros topics for motor commands and publishes the encoder ticks
 - write a configurable differential driver controller which takes [geometry_msgs/Twist](http://wiki.ros.org/geometry_msgs) to allow ros navigation to control the EV3.
 - create publishers for the EV3 sensors
 - build debs?
