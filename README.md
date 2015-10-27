@@ -6,7 +6,7 @@ Getting ros ~~core~~ running on an ev3.
 Latest Status
 ------
 
-- I need to take a short break to finish another research project, will be back after Jan 15, 2015. 
+- I need to take a short break to finish another research project, will hope to be back sometime in the future.
 - using this [python-ev3 package](https://github.com/topikachu/python-ev3) and a pyhton console I controlled the motors from ros topic input. no video proof yet, it was just a quick hack to test it. 
 - rospy talker-subscriber working. If you're looking for proof [here is video](http://youtu.be/ZgA7DgbuVEs)
 - roscore not working on the ev3
