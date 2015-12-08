@@ -1,21 +1,22 @@
 This is a work in progress status report on getting ROS onto ev3dev using brickstrap.
 
+These steps have been tested in Ubuntu 14.04.3
+
 Follow the [instructions](https://github.com/ev3dev/ev3dev/wiki/Using-brickstrap-to-cross-compile-and-debug) here to get brickstrap. 
 
-Note at the time of writing:
-  - ```apt-get install brickstrap``` doesn't include a recent patch. See this [ev3dev Issue #190](https://github.com/ev3dev/ev3dev/issues/190) <br>
-    I checked out the source code and replaced the ev3dev-jessie brickstrap uses with the new one.<br>
-    We will need to modify this again once more before we create the image. 
+Update brickstrap is still missing some patches:
+  - ```apt-get install brickstrap``` doesn't include a recent patch. See this [ev3dev/brickstrap Issue #9](https://github.com/ev3dev/brickstrap/issues/9) <br>
+    Replace the preinst.blacklist file
     
     ```
-    user@host$ git checkout git@github.com:ev3dev/brickstrap
-    user@host$ sudo rm -rf /usr/share/brickstrap/ev3dev-jessie
-    user@host$ sudo mv ev3dev-jessie /usr/share/brickstrap/ev3dev-jessie
+    user@host$ cd /usr/share/brickstrap/ev3-ev3dev-jessie/
+    user@host$ sudo rm preinst.blacklist
+    user@host$ sudo wget https://raw.githubusercontent.com/ev3dev/brickstrap/master/ev3-ev3dev-jessie/preinst.blacklist 
     ```
 
-The above mentioned issue has since been closed. So the above steps shoundn't be required. Also, the ev3dev/brickstrap repository has been restructured to support new hardware, so the above ```mv``` step should fail. 
+There is also an issue on launchpad titled [Multistrap is broken in 14.04](https://bugs.launchpad.net/ubuntu/+source/multistrap/+bug/1313787). Someone suggests 
 
-Once you've updated the ev3dev-jessie you can run
+> Workaround until fix is released: edit /usr/sbin/multistrap and remove $forceyes on line 989.
 
 ```
 user@host$ brickstrap -b ev3dev-jessie -d ev3dev-ros all
