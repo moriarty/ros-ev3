@@ -30,30 +30,34 @@ root@host#
 
 Once inside of a brickstrap shell:
 
-1. Change into the host-rootfs as suggested in guide above. <br>
-  Then install the system dependencies using ```apt-get install```. <br>
+1. Install some nice basics, needed to build and extract further dependencies.
+
+  ```
+  root@host# apt-get install unzip bzip2 build-essential
+  ```
+
+2. Install the ROS system dependencies using ```apt-get install```. <br>
   I've added them in list so that they can be updated and maintained easily. 
 
   ```
-  root@host# cd /host-rootfs/home/user/workspace/ev3
-  root@host# apt-get update
+  root@host# cd /tmp
   root@host# wget https://raw.githubusercontent.com/moriarty/ros-ev3/master/ros-dependencies.debs
   root@host# chmod +x ros-dependencies.debs
   root@host# ./ros-dependencies.debs
   ```
 
-2. Next install the some python packages available through pip
+3. Next install the some python packages available through pip
 
   ```
   root@host# pip install -U rosdep rosinstall_generator wstool rosinstall catkin_pkg rospkg
   ```
-3. sbcl needs to be downloaded, there is a armel binary available for 1.2.1 <br>
+3. sbcl needs to be downloaded, there is a armel binary available for 1.2.7 <br>
   http://www.sbcl.org/platform-table.html <br>
   Downlad, unpack it, change to the directory and run the install script: <br>
 
   ```
-  root@host# wget http://netcologne.dl.sourceforge.net/project/sbcl/sbcl/1.2.1/sbcl-1.2.1-armel-linux-binary.tar.bz2
-  root@host# tar -xjf sbcl-1.2.1-armel-linux-binary.tar.bz2 
+  root@host# wget http://netcologne.dl.sourceforge.net/project/sbcl/sbcl/1.2.7/sbcl-1.2.7-armel-linux-binary.tar.bz2
+  root@host# tar -xjf sbcl-1.2.7-armel-linux-binary.tar.bz2 
   root@host# INSTALL_ROOT=/usr/local sh install.sh
   ```
 
@@ -95,7 +99,7 @@ Once inside of a brickstrap shell:
   Then create the rosinstall file, initialize the ros workspace, and check the ros dependencies are all met.
 
   ```
-  root@host# mkdir ros_comm && cd ros_com
+  root@host# mkdir ros_comm && cd ros_comm
   root@host# rosinstall_generator ros_comm --rosdistro indigo --deps --wet-only --tar > indigo-ros_comm-wet.rosinstall
   root@host# wstool init -j8 src indigo-ros_comm-wet.rosinstall
   root@host# rosdep check --from-paths src --ignore-src --rosdistro indigo -y --os=debian:jessie
