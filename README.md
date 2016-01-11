@@ -1,20 +1,23 @@
-ros-ev3
-=======
+# ROS on the Lego EV3
 
-Getting ros ~~core~~ running on an ev3.
+At 300Mhz and 16 Mb RAM, the EV3 is a huge step up over the previous Lego NXT.
+
+This project aimed to get ROS running on the EV3, however roscore itself wasn't able to run on the brick directly.
+
+This project provides instructions on how to install ros_comm, the ros communication stack onto the ev3, which allows ROS nodes to run on the EV3 as long as their is a roscore running on another computer on the network.
 
 Latest Status
 ------
 
-- I need to take a short break to finish another research project, will hope to be back sometime in the future.
+- I haven't had any time to work on this, but due to the increased number of emails and the activity I've seen over that the [ev3dev](http://www.ev3dev.org) project I thought now would be a good time to update these instructions.
 - using this [python-ev3 package](https://github.com/topikachu/python-ev3) and a pyhton console I controlled the motors from ros topic input. no video proof yet, it was just a quick hack to test it. 
-- rospy talker-subscriber working. If you're looking for proof [here is video](http://youtu.be/ZgA7DgbuVEs)
-- roscore not working on the ev3
-- All ROS dependencies have been built and installed. 
+- rospy talker-subscriber working. If you're looking for proof [here is boring video of my ssh terminals](http://youtu.be/ZgA7DgbuVEs)
+- roscore not working on the ev3, this is due to the resources required, but with roscore on the network nodes still work.
+- All ROS dependencies have been built and installed.
 
 See [brickstrap-build-status.md](https://github.com/moriarty/ros-ev3/blob/master/brickstrap-build-status.md) for the steps I used.
 
-Current ToDos:
+ToDos/Wishlist:
 ------
 
 - create an sd image to share ev3dev with ros already included. Not the recommended way to do it but some people my just want to quickly test.
