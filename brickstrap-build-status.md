@@ -2,17 +2,7 @@ This is a work in progress status report on getting ROS onto ev3dev using bricks
 
 These steps have been tested in Ubuntu 14.04.3
 
-Follow the [instructions](https://github.com/ev3dev/ev3dev/wiki/Using-brickstrap-to-cross-compile-and-debug) here to get brickstrap. 
-
-Update brickstrap is still missing some patches:
-  - ```apt-get install brickstrap``` doesn't include a recent patch. See this [ev3dev/brickstrap Issue #9](https://github.com/ev3dev/brickstrap/issues/9) <br>
-    Replace the preinst.blacklist file
-    
-    ```
-    user@host$ cd /usr/share/brickstrap/ev3-ev3dev-jessie/
-    user@host$ sudo rm preinst.blacklist
-    user@host$ sudo wget https://raw.githubusercontent.com/ev3dev/brickstrap/master/ev3-ev3dev-jessie/preinst.blacklist 
-    ```
+Follow the [ev3dev tutorial for installing brickstrap](http://www.ev3dev.org/docs/tutorials/using-brickstrap-to-cross-compile/). 
 
 There is also an issue on launchpad titled [Multistrap is broken in 14.04](https://bugs.launchpad.net/ubuntu/+source/multistrap/+bug/1313787). Someone suggests 
 
@@ -148,3 +138,16 @@ I've uploaded a video [here](http://youtu.be/ZgA7DgbuVEs) of the talker/listener
 I set all the ip addresses of the machines and ev3 in /etc/hosts, might be my own networking issue.
 
 
+##### OLD patches
+
+I'm updating this guide, but can't afford to install a clean VM. Will move patches that may be fixed to here until I can check on a fresh Ubuntu 14.04 VM that these have indeed been solved. 
+
+Update brickstrap is still missing some patches:
+  - ```apt-get install brickstrap``` doesn't include a recent patch. See this [ev3dev/brickstrap Issue #9](https://github.com/ev3dev/brickstrap/issues/9) <br>
+    Replace the preinst.blacklist file
+    
+    ```
+    user@host$ cd /usr/share/brickstrap/ev3-ev3dev-jessie/
+    user@host$ sudo rm preinst.blacklist
+    user@host$ sudo wget https://raw.githubusercontent.com/ev3dev/brickstrap/master/ev3-ev3dev-jessie/preinst.blacklist 
+    ```
