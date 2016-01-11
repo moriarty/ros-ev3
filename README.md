@@ -2,9 +2,11 @@
 
 At 300Mhz and 16 Mb RAM, the EV3 is a huge step up over the previous Lego NXT.
 
+This project provides instructions on how to install ros_comm, the ros communication stack onto the ev3, which allows ROS nodes to run on the EV3 as long as their is a roscore running on another computer on the network.
+
 This project aimed to get ROS running on the EV3, however roscore itself wasn't able to run on the brick directly.
 
-This project provides instructions on how to install ros_comm, the ros communication stack onto the ev3, which allows ROS nodes to run on the EV3 as long as their is a roscore running on another computer on the network.
+Big thanks to the work done by those contributing to the [ev3dev project](http://www.ev3dev.org) & their github [issues](https://github.com/ev3dev/ev3dev/issues)
 
 Latest Status
 ------
