@@ -1,61 +1,65 @@
-This is a work in progress status report on getting ROS onto ev3dev using brickstrap.
+This was a work in progress status report on getting ROS onto ev3dev using brickstrap. Now it's become the main instructions on how to use brickstrap to build the ros_comm packages for ev3-dev
 
-These steps have been tested in Ubuntu 14.04.3
+#### These steps have been tested in Ubuntu 14.04.3
 
-Follow the [ev3dev tutorial for installing brickstrap](http://www.ev3dev.org/docs/tutorials/using-brickstrap-to-cross-compile/). 
+##### Install brickstrap
 
-There is also an issue on launchpad titled [Multistrap is broken in 14.04](https://bugs.launchpad.net/ubuntu/+source/multistrap/+bug/1313787). Someone suggests 
+1. Follow the [ev3dev tutorial for installing brickstrap](http://www.ev3dev.org/docs/tutorials/using-brickstrap-to-cross-compile/). 
+2. Set up a new brickstrap space to work in:
+  
+  - the -d option allows you to name this workspace
+  - the -b option is for which board your using, ev3-ev3dev-jessie is for the Lego EV3.
+  ```
+  user@host$ brickstrap -b ev3-ev3dev-jessie -d ev3dev-ros create-rootfs
+  ```
+  This command takes a few minutes.
+  
+3. Enter the brickstrap shell:
 
-> Workaround until fix is released: edit /usr/sbin/multistrap and remove $forceyes on line 989.
+  ```
+  user@host$ brickstrap -b ev3-ev3dev-jessie -d ev3dev-ros shell
+  (brickstrap)root@host#
+  ```
 
-```
-user@host$ brickstrap -b ev3dev-jessie -d ev3dev-ros all
-```
-This command takes a few minutes. When it's finished you can enter the brickstrap shell.
-
-```
-user@host$ brickstrap -b ev3dev-jessie -d ev3dev-ros shell
-root@host#
-```
-
+##### Install ros_comm
 Once inside of a brickstrap shell:
 
 1. Install some nice basics, needed to build and extract further dependencies.
 
   ```
-  root@host# apt-get install unzip bzip2 build-essential
+  (brickstrap)root@host# apt-get install unzip bzip2 build-essential
   ```
 
 2. Install the ROS system dependencies using ```apt-get install```. <br>
   I've added them in list so that they can be updated and maintained easily. 
 
   ```
-  root@host# cd /tmp
-  root@host# wget https://raw.githubusercontent.com/moriarty/ros-ev3/master/ros-dependencies.debs
-  root@host# chmod +x ros-dependencies.debs
-  root@host# ./ros-dependencies.debs
+  (brickstrap)root@host# cd /tmp
+  (brickstrap)root@host# wget https://raw.githubusercontent.com/moriarty/ros-ev3/master/ros-dependencies.debs
+  (brickstrap)root@host# chmod +x ros-dependencies.debs
+  (brickstrap)root@host# ./ros-dependencies.debs
   ```
 
 3. Next install the some python packages available through pip
 
   ```
-  root@host# pip install -U rosdep rosinstall_generator wstool rosinstall catkin_pkg rospkg
+  (brickstrap)root@host# pip install -U rosdep rosinstall_generator wstool rosinstall catkin_pkg rospkg
   ```
 3. sbcl needs to be downloaded, there is a armel binary available for 1.2.7 <br>
   http://www.sbcl.org/platform-table.html <br>
   Downlad, unpack it, change to the directory and run the install script: <br>
 
   ```
-  root@host# wget http://netcologne.dl.sourceforge.net/project/sbcl/sbcl/1.2.7/sbcl-1.2.7-armel-linux-binary.tar.bz2
-  root@host# tar -xjf sbcl-1.2.7-armel-linux-binary.tar.bz2 
-  root@host# INSTALL_ROOT=/usr/local sh install.sh
+  (brickstrap)root@host# wget http://netcologne.dl.sourceforge.net/project/sbcl/sbcl/1.2.7/sbcl-1.2.7-armel-linux-binary.tar.bz2
+  (brickstrap)root@host# tar -xjf sbcl-1.2.7-armel-linux-binary.tar.bz2 
+  (brickstrap)root@host# INSTALL_ROOT=/usr/local sh install.sh
   ```
 
 4. Initialize and update rosdep:
 
   ```
-  root@host# rosdep init
-  root@host# rosdep update 
+  (brickstrap)root@host# rosdep init
+  (brickstrap)root@host# rosdep update 
   ```
   
   Note: the rosdep update may not be needed.
@@ -68,8 +72,8 @@ Once inside of a brickstrap shell:
   And add this file to the rosdep sources.
   
   ```
-  root@host# wget https://raw.githubusercontent.com/moriarty/ros-ev3/master/ev3dev.yaml
-  root@host# vi /etc/ros/rosdep/sources.list.d/20-default.list
+  (brickstrap)root@host# wget https://raw.githubusercontent.com/moriarty/ros-ev3/master/ev3dev.yaml
+  (brickstrap)root@host# vi /etc/ros/rosdep/sources.list.d/20-default.list
   ```
   
   Add the following lines to the beginning, update the path to where wget just put the file. 
@@ -82,23 +86,23 @@ Once inside of a brickstrap shell:
   
   update rosdep again. 
   ```
-  root@host# rosdep update
+  (brickstrap)root@host# rosdep update
   ```
 
 6. I created and changed to a new directory ros_comm, just to keep things organized. <br>
   Then create the rosinstall file, initialize the ros workspace, and check the ros dependencies are all met.
 
   ```
-  root@host# mkdir ros_comm && cd ros_comm
-  root@host# rosinstall_generator ros_comm --rosdistro indigo --deps --wet-only --tar > indigo-ros_comm-wet.rosinstall
-  root@host# wstool init -j8 src indigo-ros_comm-wet.rosinstall
-  root@host# rosdep check --from-paths src --ignore-src --rosdistro indigo -y --os=debian:jessie
+  (brickstrap)root@host# mkdir ros_comm && cd ros_comm
+  (brickstrap)root@host# rosinstall_generator ros_comm --rosdistro indigo --deps --wet-only --tar > indigo-ros_comm-wet.rosinstall
+  (brickstrap)root@host# wstool init -j8 src indigo-ros_comm-wet.rosinstall
+  (brickstrap)root@host# rosdep check --from-paths src --ignore-src --rosdistro indigo -y --os=debian:jessie
   ```
 
 7. It's time to install ros using catkin_make_isolated.
 
   ```
-  root@host# ./src/catkin/bin/catkin_make_isolated --install --install-space /opt/ros/indigo -DCMAKE_BUILD_TYPE=Release
+  (brickstrap)root@host# ./src/catkin/bin/catkin_make_isolated --install --install-space /opt/ros/indigo -DCMAKE_BUILD_TYPE=Release
   ```
   
   This step might take a while. I'm running the brickstrap shell inside of a Virtual Ubuntu 14.04 inside of OSX 10.10, not the ideal setup for speed, but I'm unable to upgrade to 14.04 on my main linux partition. I've given the VM 4 of 8 cores and 4Gb of ram, With this configuration the process took almost exactly one hour. 
@@ -109,7 +113,7 @@ Once inside of a brickstrap shell:
   I increased it to 1500M. 
 
   ```
-  root@host# exit
+  (brickstrap)root@host# exit
   user@host# sudo vi /usr/share/brickstrap/ev3dev-jessie/config
   ```
   
@@ -142,8 +146,10 @@ I set all the ip addresses of the machines and ev3 in /etc/hosts, might be my ow
 
 I'm updating this guide, but can't afford to install a clean VM. Will move patches that may be fixed to here until I can check on a fresh Ubuntu 14.04 VM that these have indeed been solved. 
 
-Update brickstrap is still missing some patches:
-  - ```apt-get install brickstrap``` doesn't include a recent patch. See this [ev3dev/brickstrap Issue #9](https://github.com/ev3dev/brickstrap/issues/9) <br>
+1. brickstrap:
+  
+    at one point before 0.4.0 required a quick fix:
+    See this [ev3dev/brickstrap Issue #9](https://github.com/ev3dev/brickstrap/issues/9) <br>
     Replace the preinst.blacklist file
     
     ```
@@ -151,3 +157,11 @@ Update brickstrap is still missing some patches:
     user@host$ sudo rm preinst.blacklist
     user@host$ sudo wget https://raw.githubusercontent.com/ev3dev/brickstrap/master/ev3-ev3dev-jessie/preinst.blacklist 
     ```
+
+2. Multistrap:
+  
+    The ev3dev developers maintain a patched version of multistrap in their debian mirror. So this will only effect users who had a previous version of multistrap.
+    
+    There is also an issue on launchpad titled [Multistrap is broken in  14.04](https://bugs.launchpad.net/ubuntu/+source/multistrap/+bug/1313787). In that issue, someone suggests: 
+
+  > Workaround until fix is released: edit /usr/sbin/multistrap and remove $forceyes on line 989.
