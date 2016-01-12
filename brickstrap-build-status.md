@@ -24,9 +24,11 @@ This was a work in progress status report on getting ROS onto ev3dev using brick
 ##### Install ros_comm
 Once inside of a brickstrap shell:
 
-1. Install some nice basics, needed to build and extract further dependencies.
+1. Install some basics, needed to build and extract further dependencies. Change into host-rootfs (explained in brickstrap tutorial)
 
   ```
+  (brickstrap)root@host# cd /host-rootfs/home/user
+  (brickstrap)root@host# apt-get update
   (brickstrap)root@host# apt-get install unzip bzip2 build-essential
   ```
 
@@ -34,10 +36,8 @@ Once inside of a brickstrap shell:
   I've added them in list so that they can be updated and maintained easily. 
 
   ```
-  (brickstrap)root@host# cd /tmp
   (brickstrap)root@host# wget https://raw.githubusercontent.com/moriarty/ros-ev3/master/ros-dependencies.debs
-  (brickstrap)root@host# chmod +x ros-dependencies.debs
-  (brickstrap)root@host# ./ros-dependencies.debs
+  (brickstrap)root@host# bash ros-dependencies.debs
   ```
 
 3. Next install the some python packages available through pip
@@ -51,40 +51,32 @@ Once inside of a brickstrap shell:
 
   ```
   (brickstrap)root@host# wget http://netcologne.dl.sourceforge.net/project/sbcl/sbcl/1.2.7/sbcl-1.2.7-armel-linux-binary.tar.bz2
-  (brickstrap)root@host# tar -xjf sbcl-1.2.7-armel-linux-binary.tar.bz2 
+  (brickstrap)root@host# tar -xjf sbcl-1.2.7-armel-linux-binary.tar.bz2
+  (brickstrap)root@host# cd sbcl-1.2.7-armel-linux
   (brickstrap)root@host# INSTALL_ROOT=/usr/local sh install.sh
+  (brickstrap)root@host# cd ..
   ```
 
-4. Initialize and update rosdep:
+4. Initialize rosdep:
 
   ```
   (brickstrap)root@host# rosdep init
-  (brickstrap)root@host# rosdep update 
   ```
   
-  Note: the rosdep update may not be needed.
-  Ignore the following warning, fix it later. 
-  Warning: running 'rosdep update' as root is not recommended.
-  You should run 'sudo rosdep fix-permissions' and invoke 'rosdep update' again without sudo.
-
-  
-5. debian jessie is not officially supported by ros, so now we need to add a custom ev3dev.yaml<br>
-  And add this file to the rosdep sources.
+5. Debian jessie is not officially supported by ROS, so we need to change where it will look for some packages<br>
+  Open the 20-default.list file:
   
   ```
-  (brickstrap)root@host# wget https://raw.githubusercontent.com/moriarty/ros-ev3/master/ev3dev.yaml
-  (brickstrap)root@host# vi /etc/ros/rosdep/sources.list.d/20-default.list
+  (brickstrap)root@host# nano /etc/ros/rosdep/sources.list.d/20-default.list
   ```
   
-  Add the following lines to the beginning, update the path to where wget just put the file. 
+  Add the following line to the beginning, in the os-specific listing section.
   ```
-  # for ROS on the ev3 as user "alex"
-  # yaml file:///home/alex/ev3dev.yaml
-  # for brickstrap the line is:
-  yaml file:///host-rootfs/home/alex/workspace/ev3/ev3dev-ros/ev3dev.yaml
+  # os-specific listings first
+  yaml https://raw.githubusercontent.com/moriarty/ros-ev3/master/ev3dev.yaml
   ```
   
-  update rosdep again. 
+  update rosdep. 
   ```
   (brickstrap)root@host# rosdep update
   ```
