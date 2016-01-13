@@ -101,17 +101,8 @@ Once inside of a brickstrap shell:
 
 8. Exit the brickstrap shell and create a tar of the brickstrap rootfs and a disk image from the tar.
   
-  brickstrap is using the ev3dev-jessie "BOARD" settings which create a 900M Image. After installing ROS the tar is 1.3G
-  I increased it to 1500M. 
-
   ```
   (brickstrap)root@host# exit
-  user@host# sudo vi /usr/share/brickstrap/ev3dev-jessie/config
-  ```
-  
-  Change ```IMAGE_FILE_SIZE="900M"``` to ```IMAGE_FILE_SIZE="1500M"```
-  
-  ```
   user@host$ brickstrap -d ev3dev-ros -f create-tar
   user@host$ brickstrap -d ev3dev-ros -f create-image
   ```
