@@ -1,6 +1,6 @@
 # ROS on the Lego EV3
 
-At 300Mhz and 16 Mb RAM, the EV3 is a huge step up over the previous Lego NXT.
+At 300MHz and 64MB RAM, the EV3 is a huge step up over the previous Lego NXT.
 
 This project provides instructions on how to install ros_comm, the ros communication stack onto the ev3, which allows ROS nodes to run on the EV3 as long as their is a roscore running on another computer on the network.
 
