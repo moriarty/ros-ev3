@@ -11,8 +11,7 @@ Big thanks to the work done by those contributing to the [ev3dev project](http:/
 Latest Updates
 ------
 
-- The instructions have been updated and tested with latested release of [ev3dev](http://www.ev3dev.org) on a virtual machine running Ubuntu 14.04.3, and installing ROS Indigo.
-- I have been told via email that the instructions also work for Jade. I haven't tested this, but it should work.
+- The instructions have been updated and tested with latested release of [ev3dev](http://www.ev3dev.org) on a virtual machine running Ubuntu 14.04.4, and installing ROS Indigo.
 - A user has reported that they were able to follow the same instructions with minimal issues and install ROS Jade. 
 - using this [python-ev3 package](https://github.com/topikachu/python-ev3) and a python console I controlled the motors from ros topic input. no video proof yet, it was just a quick hack to test it. 
 - rospy talker-subscriber working. If you're looking for proof [here is boring video of my ssh terminals](http://youtu.be/ZgA7DgbuVEs)
