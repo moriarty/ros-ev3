@@ -87,7 +87,7 @@ Once inside of a brickstrap shell:
   ```
   (brickstrap)root@host# mkdir ros_comm && cd ros_comm
   (brickstrap)root@host# rosinstall_generator ros_comm --rosdistro indigo --deps --wet-only --tar > indigo-ros_comm-wet.rosinstall
-  (brickstrap)root@host# wstool init -j8 src indigo-ros_comm-wet.rosinstall
+  (brickstrap)root@host# wstool init src indigo-ros_comm-wet.rosinstall
   (brickstrap)root@host# rosdep check --from-paths src --ignore-src --rosdistro indigo -y --os=debian:jessie
   ```
 
