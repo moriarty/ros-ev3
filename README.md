@@ -6,11 +6,15 @@ This project provides instructions on how to install ros_comm, the ros communica
 
 This project aimed to get ROS running on the EV3, however roscore itself ~~isn't able to run on the brick directly.~~ is very slow to launch on the EV3. If you need roscore on the EV3, see [issue #2](http://github.com/moriarty/ros-ev3/issues/2)
 
+If you have a BrickPi from Dexter Industries, the setup is even easier: just install ev3dev and follow the rest of the ROS instructions for installing on a raspberryPi.
+
 Big thanks to the work done by those contributing to the [ev3dev project](http://www.ev3dev.org) & their github [issues](https://github.com/ev3dev/ev3dev/issues)
 
 Latest Updates
 ------
 
+- The ev3dev-lang-cpp isn't installed by default (TODO) see issue #6 or use Python in the meantime.
+- I've tested on my RaspberryPi 1 and BrickPi with ev3dev, default ROS instructions work.
 - The instructions have been updated and tested with latested release of [ev3dev](http://www.ev3dev.org) on a virtual machine running Ubuntu 14.04.4, and installing ROS Indigo.
 - A user has reported that they were able to follow the same instructions with minimal issues and install ROS Jade. 
 - using this [python-ev3 package](https://github.com/topikachu/python-ev3) and a python console I controlled the motors from ros topic input. no video proof yet, it was just a quick hack to test it. 
