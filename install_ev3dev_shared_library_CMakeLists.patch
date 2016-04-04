@@ -1,0 +1,51 @@
+From 9d690fe42c966a920abdb6e95eda03fdafb25843 Mon Sep 17 00:00:00 2001
+From: moriarty <alexander@dal.ca>
+Date: Mon, 4 Apr 2016 23:13:49 +0200
+Subject: [PATCH] [CMakeList] DO NOT MERGE install .so
+
+Comments out guts of CMakeList and instead just create
+shared library which can be installed.
+---
+ CMakeLists.txt | 27 +++++++++++++++++++--------
+ 1 file changed, 19 insertions(+), 8 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 3019ec3..1101dda 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -12,14 +12,25 @@ set_property(CACHE EV3DEV_PLATFORM PROPERTY STRINGS "EV3" "RPI")
+ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+ 
+-add_library(ev3dev STATIC ev3dev.cpp)
++add_library(ev3dev SHARED ev3dev.cpp)
+ 
+-function(add_ev3_executable target sources)
+-    add_executable(${target} ${sources})
+-    target_link_libraries(${target} ev3dev pthread)
+-endfunction()
++target_link_libraries(ev3dev pthread)
+ 
+-enable_testing()
++install(TARGETS ev3dev
++        LIBRARY DESTINATION lib
++)
++install(FILES ev3dev.h
++        DESTINATION include
++)
+ 
+-add_subdirectory(demos)
+-add_subdirectory(tests)
++#add_library(ev3dev STATIC ev3dev.cpp)
++#
++#function(add_ev3_executable target sources)
++#    add_executable(${target} ${sources})
++#    target_link_libraries(${target} ev3dev pthread)
++#endfunction()
++#
++#enable_testing()
++#
++#add_subdirectory(demos)
++#add_subdirectory(tests)
+-- 
+1.9.1
