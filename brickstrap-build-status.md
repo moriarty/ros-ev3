@@ -1,6 +1,6 @@
 This was a work in progress status report on getting ROS onto ev3dev using brickstrap. Now it's become the main instructions on how to use brickstrap to build the ros_comm packages for ev3-dev
 
-#### These steps have been tested in Ubuntu 14.04.3
+#### These steps have been tested in Ubuntu 14.04.4
 
 ##### Install brickstrap
 
