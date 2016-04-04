@@ -129,7 +129,7 @@ Once inside of a brickstrap shell:
    ```
    (brickstrap)root@host# cd ev3dev-lang-cpp
    (brickstrap)root@host# wget https://raw.githubusercontent.com/moriarty/ros-ev3/master/install_ev3dev_shared_library_CMakeLists.patch
-   (brickstrap)root@host# git apply install_shard_library_CMakeLists.patch
+   (brickstrap)root@host# git apply install_ev3dev_shared_library_CMakeLists.patch
    ```
 
 3. Build and install.
