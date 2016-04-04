@@ -118,6 +118,8 @@ Once inside of a brickstrap shell:
 
 Don't forget to source setup.bash and export ROS_MASTER_URI.
 
+TODO: test ```export ROS_LANG_DISABLE=genlisp``` to speedup catkin_make_isolated
+
 ROSCORE is not working on the ev3. I don't know if it's possible or when I will have a chance to investigate further. 
 
 Running roscore on a laptop, I was able to run the rospy tutorials talker and listener on the ev3. <br>
