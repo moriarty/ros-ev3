@@ -28,10 +28,10 @@ index 3019ec3..1101dda 100644
  
 -enable_testing()
 +install(TARGETS ev3dev
-+        LIBRARY DESTINATION lib
++        LIBRARY DESTINATION /usr/lib
 +)
 +install(FILES ev3dev.h
-+        DESTINATION include
++        DESTINATION /usr/include
 +)
  
 -add_subdirectory(demos)
