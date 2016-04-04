@@ -45,7 +45,7 @@ Once inside of a brickstrap shell:
   ```
   (brickstrap)root@host# pip install -U rosdep rosinstall_generator wstool rosinstall catkin_pkg rospkg
   ```
-3. sbcl needs to be downloaded, there is a armel binary available for 1.2.7 <br>
+4. sbcl needs to be downloaded, there is a armel binary available for 1.2.7 <br>
   http://www.sbcl.org/platform-table.html <br>
   Downlad, unpack it, change to the directory and run the install script: <br>
 
@@ -57,13 +57,13 @@ Once inside of a brickstrap shell:
   (brickstrap)root@host# cd ..
   ```
 
-4. Initialize rosdep:
+5. Initialize rosdep:
 
   ```
   (brickstrap)root@host# rosdep init
   ```
   
-5. Debian jessie is not officially supported by ROS, so we need to change where it will look for some packages<br>
+6. Debian jessie is not officially supported by ROS, so we need to change where it will look for some packages<br>
   Open the 20-default.list file:
   
   ```
@@ -81,7 +81,7 @@ Once inside of a brickstrap shell:
   (brickstrap)root@host# rosdep update
   ```
 
-6. I created and changed to a new directory ros_comm, just to keep things organized. <br>
+7. I created and changed to a new directory ros_comm, just to keep things organized. <br>
   Then create the rosinstall file, initialize the ros workspace, and check the ros dependencies are all met.
   Note: only ros_comm and common_msgs will be installed, if you need more, add them to rosinstall_generator command.
 
@@ -92,7 +92,7 @@ Once inside of a brickstrap shell:
   (brickstrap)root@host# rosdep check --from-paths src --ignore-src --rosdistro indigo -y --os=debian:jessie
   ```
 
-7. It's time to install ros using catkin_make_isolated.
+8. It's time to install ros using catkin_make_isolated.
 
   ```
   (brickstrap)root@host# ./src/catkin/bin/catkin_make_isolated --install --install-space /opt/ros/indigo -DCMAKE_BUILD_TYPE=Release
@@ -100,7 +100,8 @@ Once inside of a brickstrap shell:
   
   This step might take a while. I'm running the brickstrap shell inside of a Virtual Ubuntu 14.04 inside of OSX 10.10, not the ideal setup for speed, but I'm unable to upgrade to 14.04 on my main linux partition. I've given the VM 4 of 8 cores and 4Gb of ram, With this configuration the process took almost exactly one hour. 
 
-8. Exit the brickstrap shell and create a tar of the brickstrap rootfs and a disk image from the tar.
+9. Exit the brickstrap shell and create a tar of the brickstrap rootfs and a disk image from the tar.
+   The python bindings for ev3dev are available by default. If you need c++, see section below and return to this step later.
   
   ```
   (brickstrap)root@host# exit
@@ -109,10 +110,39 @@ Once inside of a brickstrap shell:
   ```
   
 
-9. Create an SD card from the image, there are two ways to do this:<br>
+10. Create an SD card from the image, there are two ways to do this:<br>
   - [gui](http://www.ev3dev.org/docs/tutorials/writing-sd-card-image-ubuntu-disk-image-writer/)
   - [cli](http://www.ev3dev.org/docs/tutorials/writing-sd-card-image-linux-command-line/)
 
+##### Install ev3dev-lang-cpp
+
+[ev3dev-lang-cpp](https://github.com/ddemidov/ev3dev-lang-cpp) is the c++ language bindings for ev3dev. Here are unofficial installation instructions. Run these instructions inside of the brickstrap shell from above. If you've closed your brickstrap shell, install brickstrap step 3 will open a new one.
+
+1. Clone ev3dev-lang-cpp
+
+   ```
+   (brickstrap)root@host# git clone https://github.com/ddemidov/ev3dev-lang-cpp
+   ```
+2. Patch the CMakeLists.txt. By default ev3dev-lang-cpp creates a static library which is not installed.
+   This patch creates a shared library and adds install for the library and header file.
+
+   ```
+   (brickstrap)root@host# cd ev3dev-lang-cpp
+   (brickstrap)root@host# wget https://raw.githubusercontent.com/moriarty/ros-ev3/master/install_ev3dev_shared_library_CMakeLists.patch
+   (brickstrap)root@host# git apply install_shard_library_CMakeLists.patch
+   ```
+
+3. Build and install.
+
+   ```
+   (brickstrap)root@host# mkdir build
+   (brickstrap)root@host# cd build
+   (brickstrap)root@host# cmake ..
+   (brickstrap)root@host# make
+   (brickstrap)root@host# make install
+   ```
+
+4. Return to install ros_comm step 9. 
 
 #### Notes
 
