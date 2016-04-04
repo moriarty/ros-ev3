@@ -83,10 +83,11 @@ Once inside of a brickstrap shell:
 
 6. I created and changed to a new directory ros_comm, just to keep things organized. <br>
   Then create the rosinstall file, initialize the ros workspace, and check the ros dependencies are all met.
+  Note: only ros_comm and common_msgs will be installed, if you need more, add them to rosinstall_generator command.
 
   ```
   (brickstrap)root@host# mkdir ros_comm && cd ros_comm
-  (brickstrap)root@host# rosinstall_generator ros_comm --rosdistro indigo --deps --wet-only --tar > indigo-ros_comm-wet.rosinstall
+  (brickstrap)root@host# rosinstall_generator ros_comm common_msgs --rosdistro indigo --deps --wet-only --tar > indigo-ros_comm-wet.rosinstall
   (brickstrap)root@host# wstool init src indigo-ros_comm-wet.rosinstall
   (brickstrap)root@host# rosdep check --from-paths src --ignore-src --rosdistro indigo -y --os=debian:jessie
   ```
