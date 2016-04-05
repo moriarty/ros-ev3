@@ -10,6 +10,11 @@ If you have a BrickPi from Dexter Industries, the setup is even easier: just ins
 
 Big thanks to the work done by those contributing to the [ev3dev project](http://www.ev3dev.org) & their github [issues](https://github.com/ev3dev/ev3dev/issues)
 
+How To
+-----
+
+See [brickstrap-build-status.md](https://github.com/moriarty/ros-ev3/blob/master/brickstrap-build-status.md) for instructions to create a custom ev3dev image with ros_comm and common_msgs installed.
+
 Latest Updates
 ------
 
@@ -22,10 +27,6 @@ Latest Updates
 - using this [python-ev3 package](https://github.com/topikachu/python-ev3) and a python console I controlled the motors from ros topic input. no video proof yet, it was just a quick hack to test it. 
 - rospy talker-subscriber working. If you're looking for proof [here is boring video of my ssh terminals](http://youtu.be/ZgA7DgbuVEs)
 
-How To
------
-
-See [brickstrap-build-status.md](https://github.com/moriarty/ros-ev3/blob/master/brickstrap-build-status.md) for the steps I used.
 
 See Also
 -----
