@@ -13,7 +13,9 @@ Big thanks to the work done by those contributing to the [ev3dev project](http:/
 Latest Updates
 ------
 
-- The ev3dev-lang-cpp isn't installed by default (TODO) see issue #6 or use Python in the meantime.
+- Instructions now install ros_comm & common_msgs
+- It is strongly recommended to use rospython.
+- The ev3dev-lang-cpp installation instructions have been added.
 - I've tested on my RaspberryPi 1 and BrickPi with ev3dev, default ROS instructions work.
 - The instructions have been updated and tested with latested release of [ev3dev](http://www.ev3dev.org) on a virtual machine running Ubuntu 14.04.4, and installing ROS Indigo.
 - A user has reported that they were able to follow the same instructions with minimal issues and install ROS Jade. 
