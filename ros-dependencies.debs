@@ -13,7 +13,7 @@ packagelist=(
     libc6-dev
     libconsole-bridge-dev
     libgtest-dev
-    liblog4cxx10
+    liblog4cxx10v5
     liblog4cxx10-dev
     liblz4-dev
     libtinyxml-dev
